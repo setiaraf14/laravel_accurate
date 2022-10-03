@@ -24,5 +24,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('accurate')->group( function() {
     Route::post('add-data-db', [AccurateController::class, 'addData']);
     Route::get('store-data-accurate', [AccurateController::class, 'storeData']);
+    Route::get('bulk-data-accurate', [AccurateController::class, 'bulkData']);
     Route::get('open-db-accurate', [AccurateController::class, 'openDb']);
 });

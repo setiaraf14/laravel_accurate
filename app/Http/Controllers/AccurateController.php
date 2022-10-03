@@ -82,9 +82,15 @@ class AccurateController extends Controller
               ));
             $response = json_decode(curl_exec($curl));
             curl_close($curl);
+
             if($response->s) {
                 $itemAccurate->status = 1;
                 $itemAccurate->save();
+                return response()->json([
+                    'status' => $response->s,
+                    'message' => $response->d
+                ]);
+            } else {
                 return response()->json([
                     'status' => $response->s,
                     'message' => $response->d
@@ -95,6 +101,20 @@ class AccurateController extends Controller
                 'status' => false,
                 'message' => $e->getMessage()
             ]);
+        }
+    }
+
+    public function bulkData() {
+        try {
+            $itemAccurate = ItemAccurate::where('status', 0)->get();
+            if(!$itemAccurate) {
+                return response()->json([
+                    'status' => false,
+                    'message' => "there are no accurate items that have not been saved via the ACCURATE ID api"
+                ]);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
         }
     }
 
